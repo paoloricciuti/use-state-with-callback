@@ -1,13 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import { useMyHook } from 'use-state-with-callback'
+import { useStateWithCallback } from 'use-state-with-callback';
 
 const App = () => {
-  const example = useMyHook()
-  return (
-    <div>
-      {example}
-    </div>
-  )
-}
-export default App
+    const [state, setState] = useStateWithCallback(0);
+    const [otherState, setOtherState] = useState(0);
+    return (
+        <>
+            <div>
+                The other state changed {otherState} times.
+            </div>
+            <div>The main state: {state}</div>
+            <button onClick={() => {
+                setState(prev => prev + 1);
+            }}>Change without callback</button>
+            <button onClick={() => {
+                setState(prev => prev + 1, () => {
+                    setOtherState(prev => prev + 1);
+                });
+            }}>Change with callback</button>
+        </>
+    );
+};
+export default App;
